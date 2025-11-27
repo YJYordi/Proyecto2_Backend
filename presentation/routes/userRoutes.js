@@ -10,8 +10,8 @@ router.post('/register', validateUserRegister, (req, res) => userController.regi
 // Read (Login) - No requiere autenticación
 router.post('/login', validateUserLogin, (req, res) => userController.login(req, res));
 
-// Read (Obtener usuario) - No requiere autenticación (según requisitos)
-router.get('/:userId', (req, res) => userController.getUser(req, res));
+// Read (Obtener usuario) - Requiere autenticación (debe ser seguro)
+router.get('/:userId', authenticate, (req, res) => userController.getUser(req, res));
 
 // Update (Modificar usuario) - Requiere autenticación
 router.put('/:userId', authenticate, validateUserUpdate, (req, res) => userController.updateUser(req, res));

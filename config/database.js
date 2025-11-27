@@ -10,7 +10,11 @@ const connectDB = async () => {
     console.log(`MongoDB conectado: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error al conectar MongoDB: ${error.message}`);
-    process.exit(1);
+    // No hacer exit en modo test para permitir que las pruebas manejen la conexión
+    if (process.env.NODE_ENV !== 'test' && !process.env.JEST_WORKER_ID) {
+      process.exit(1);
+    }
+    throw error;
   }
 };
 
