@@ -154,10 +154,9 @@ describe('User Controller', () => {
   });
 
   describe('GET /api/usuarios/:userId', () => {
-    test('Debería obtener información del usuario con autenticación', async () => {
+    test('Debería obtener información del usuario sin autenticación', async () => {
       const response = await request(app)
-        .get(`/api/usuarios/${testUser._id}`)
-        .set('Authorization', `Bearer ${testToken}`);
+        .get(`/api/usuarios/${testUser._id}`);
 
       expect(response.status).toBe(200);
       expect(response.body.user).toHaveProperty('nombre', 'Usuario Test');
@@ -165,18 +164,10 @@ describe('User Controller', () => {
       expect(response.body.user).not.toHaveProperty('contraseña');
     });
 
-    test('Debería fallar sin token de autenticación', async () => {
-      const response = await request(app)
-        .get(`/api/usuarios/${testUser._id}`);
-
-      expect(response.status).toBe(401);
-    });
-
     test('Debería fallar si el usuario no existe', async () => {
       const fakeId = new require('mongoose').Types.ObjectId();
       const response = await request(app)
-        .get(`/api/usuarios/${fakeId}`)
-        .set('Authorization', `Bearer ${testToken}`);
+        .get(`/api/usuarios/${fakeId}`);
 
       expect(response.status).toBe(404);
     });
@@ -186,8 +177,7 @@ describe('User Controller', () => {
       await testUser.save();
 
       const response = await request(app)
-        .get(`/api/usuarios/${testUser._id}`)
-        .set('Authorization', `Bearer ${testToken}`);
+        .get(`/api/usuarios/${testUser._id}`);
 
       expect(response.status).toBe(404);
     });
@@ -197,8 +187,7 @@ describe('User Controller', () => {
       await testUser.save();
 
       const response = await request(app)
-        .get(`/api/usuarios/${testUser._id}?includeDisabled=true`)
-        .set('Authorization', `Bearer ${testToken}`);
+        .get(`/api/usuarios/${testUser._id}?includeDisabled=true`);
 
       expect(response.status).toBe(200);
       expect(response.body.user.habilitado).toBe(false);

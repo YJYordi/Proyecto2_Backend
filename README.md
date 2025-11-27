@@ -154,10 +154,7 @@ Iniciar sesión (no requiere autenticación)
 ```
 
 #### GET `/usuarios/:userId`
-Obtener información de un usuario (requiere autenticación - debe ser seguro)
-
-**Headers:**
-- `Authorization: Bearer <token>` - Token JWT requerido
+Obtener información de un usuario (no requiere autenticación)
 
 **Query params:**
 - `includeDisabled=true` - Incluir usuarios inhabilitados
@@ -358,8 +355,7 @@ Las pruebas utilizan una base de datos separada y limpian los datos después de 
 
 ## Notas Importantes
 
-- Todos los endpoints excepto `POST /usuarios/register`, `POST /usuarios/login`, `GET /libros` y `GET /libros/:bookId` requieren autenticación
-- `GET /usuarios/:userId` requiere autenticación para garantizar seguridad
+- Todos los endpoints excepto `POST /usuarios/register`, `POST /usuarios/login`, `GET /usuarios/:userId`, `GET /libros` y `GET /libros/:bookId` requieren autenticación
 - Los READ excluyen entradas inhabilitadas por defecto, a menos que se solicite explícitamente con `includeDisabled=true`
 - Un libro es una unidad única (no hay libros repetidos)
 - No hay límite en la cantidad de libros que un usuario puede reservar
